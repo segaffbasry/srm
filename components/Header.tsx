@@ -87,8 +87,9 @@ function Menu({ open, close }: { open: boolean; close: () => void }) {
   );
 }
 
-/* No bar and no box: the red lock-up on the left, three live destinations and the menu toggle on the right. Its
-   colour follows the scene behind it (--hfg from Backdrop). It slides away on the way down and returns on the way up,
+/* No bar and no box (as on the approved Coinford header): the red lock-up on the left, the five live main sections and
+   the menu toggle on the right. It is white over the Slate hero and Slate over the white page, decided by a probe of
+   what sits behind it. It slides away on the way down and returns on the way up,
    with irisventure.com's nav transition: translateY(-170%) over 0.3s on cubic-bezier(.33,0,.66,1). */
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -96,27 +97,40 @@ export function Header() {
   const toggle = useRef<HTMLButtonElement>(null);
   const close = useCallback(() => { setOpen(false); toggle.current?.focus(); }, []);
 
+  // Kept in state, not added to className by hand: React rewrites className whenever the menu opens.
+  const [hidden, setHidden] = useState(false);
+  const [entered, setEntered] = useState(false);
+  const [dark, setDark] = useState(true);
+
   useEffect(() => {
-    const el = bar.current; if (!el) return;
-    let last = window.scrollY;
+    let last = window.scrollY, raf = 0;
+    // Tone probe: whatever sits behind the header's middle decides its colour (white over the Slate hero and the
+    // film, Slate over the white page).
+    const probe = () => {
+      raf = 0;
+      const h = bar.current?.offsetHeight ?? 80;
+      const under = document.elementsFromPoint(window.innerWidth / 2, h / 2).find((e) => !e.closest(".site-header, .menu, .preloader"));
+      setDark(!!under?.closest('[data-tone="dark"]'));
+    };
     const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(probe);
       const y = window.scrollY, d = y - last;
-      if (y < 120) { el.classList.remove("is-hidden"); last = y; return; }
+      if (y < 120) { setHidden(false); last = y; return; }
       if (Math.abs(d) < 6) return;
-      el.classList.toggle("is-hidden", d > 0);
+      setHidden(d > 0);
       last = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    const off = onIntro(() => el.classList.add("is-in"));
-    return () => { window.removeEventListener("scroll", onScroll); off(); };
+    window.addEventListener("resize", onScroll);
+    probe();
+    const off = onIntro(() => setEntered(true));
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); off(); cancelAnimationFrame(raf); };
   }, []);
 
-  useEffect(() => { if (open) bar.current?.classList.remove("is-hidden"); }, [open]);
-
-  const quick = [nav[0], nav[2], nav[3]];
+  const quick = nav.slice(0, 5);
   return (
     <>
-      <header className={`site-header${open ? " is-open" : ""}`} ref={bar}>
+      <header className={`site-header${open ? " is-open" : ""}${hidden && !open ? " is-hidden" : ""}${entered ? " is-in" : ""}${dark || open ? " is-dark" : ""}`} ref={bar}>
         <a href="#top" className="header-logo" aria-label="Sir Robert McAlpine, back to the top"><Logo title="" /></a>
         <nav className="header-nav" aria-label="Main">
           <ul>{quick.map((l) => <li key={l.label}><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>)}</ul>

@@ -55,26 +55,34 @@ export const socials = [
   { name: "YouTube", icon: "youtube", href: "https://www.youtube.com/@sirrobertmcalpine5282" },
 ] as const;
 
-// Hero: the live "header promo", the Port Talbot film with its news story.
+/* Hero, in the approved Coinford layout (statement on the left, copy and buttons on the right, the film below).
+   Every line is SRM's own: the eyebrow is the live video block's title, the display lines are the brand film's
+   closing card, and the copy joins the live "About us" and "Our Vision" blurbs from the Who We Are menu. */
 export const hero = {
-  label: "Latest news",
-  title: "Green steel takes shape at Port Talbot",
-  lines: ["Green steel takes shape", "at Port Talbot"], // the same title, broken where the second line steps in
-  text: "Work on the foundations, infrastructure and buildings that will support Tata Steel's new electric arc furnace is now well underway",
-  cta: { label: "Read more", href: u("/news-and-comment/green-steel-takes-shape-at-port-talbot/") },
-  film: "/media/hero.mp4",
-  poster: "/media/hero-poster.jpg",
+  eyebrow: "A family building and civil engineering company",
+  lines: ["Proudly building", "Britain’s future", "heritage"],
+  text: "It’s the quality of our people that makes us different. To be renowned for our work with clients and communities as we construct a better world for future generations.",
+  actions: [
+    { label: "What we do", href: u("/expert-services/") },
+    { label: "View all projects", href: u("/projects/") },
+  ],
 };
 
-// The live video block (YouTube caE2UjmlpCQ); here a muted, text-free cut of the same film.
+// The live video block (YouTube caE2UjmlpCQ); here a muted, text-free cut of the same film, framed under the hero.
 export const film = {
   title: "A family building and civil engineering company",
-  lines: ["A family building", "and civil engineering company"],
-  line: "Proudly building Britain’s future heritage", // the film's own closing line
   src: "/media/film.mp4",
   poster: "/media/film-poster.jpg",
   cta: { label: "Watch the film", href: "https://www.youtube.com/watch?v=caE2UjmlpCQ" },
 };
+
+/* Credibility strip under the film. Each figure is quoted from copy on the live homepage. */
+export const stats = [
+  { value: "150", label: "Years of technical excellence and innovation" },
+  { value: "2045", label: "Our journey to Net Zero" },
+  { value: "£500m", label: "Temple Quarter Enterprise Campus, completed" },
+  { value: "5,792", label: "Façade panels installed at 2 Finsbury Avenue" },
+];
 
 export const sustainability = {
   title: "Sustainable Engineering Excellence",
@@ -199,11 +207,9 @@ export const footer = {
 
 // Homepage sections the menu can scroll to.
 export const sections: Link[] = [
-  { label: "Film", href: "#film" },
-  { label: "Sustainability", href: "#sustainability" },
-  { label: "Our projects", href: "#projects" },
   { label: "Expert Services", href: "#expertise" },
+  { label: "Our projects", href: "#projects" },
   { label: "Our Heritage", href: "#heritage" },
-  { label: "Latest news", href: "#news" },
+  { label: "What's on", href: "#news" },
   { label: "Contact Us", href: "#contact" },
 ];

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Rebuilds public/media from srm.com: downloads the homepage's own photos at full size, the hero film and the
+# Rebuilds public/media from srm.com: downloads the homepage's own photos at full size and the
 # YouTube brand film, then encodes web versions. Needs curl, ffmpeg, cwebp and yt-dlp.
 set -e
 cd "$(dirname "$0")/.."
@@ -9,7 +9,6 @@ UA="Mozilla/5.0 (Macintosh) Chrome/130"
 get() { [ -f "$RAW/$2" ] || curl -sL -A "$UA" "$B/$1" -o "$RAW/$2"; }
 
 # name            live path (the homepage serves these at ?width=1265; the originals are fetched)
-get dwonsuey/port-talbot-september-2026-piling-website-header.mp4 hero.mp4
 get vd3nqdoy/sill_154.jpg netzero.jpg
 get hgsku52d/technical-excellence.jpeg technical.jpg
 get rhyhp45m/modern-slavery-2023.jpg slavery.jpg
@@ -44,10 +43,6 @@ if [ ! -f "$OUT/film.mp4" ]; then
   ffmpeg -v error -y -ss 4.2 -i "$RAW/film.mp4" -frames:v 1 -vf "scale=1600:-2" -q:v 3 "$OUT/film-poster.jpg"
   rm -rf "$T"
 fi
-
-# Hero: the live homepage header film (Port Talbot piling, 18.5s), silent.
-[ -f "$OUT/hero.mp4" ] || ffmpeg -v error -y -i "$RAW/hero.mp4" -an -vf "scale=1600:-2" -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p -movflags +faststart "$OUT/hero.mp4"
-[ -f "$OUT/hero-poster.jpg" ] || ffmpeg -v error -y -ss 0.5 -i "$RAW/hero.mp4" -frames:v 1 -vf "scale=1600:-2" -q:v 3 "$OUT/hero-poster.jpg"
 
 # Photos: one webp each, 1600px wide for full-bleed scenes, 960px for cards.
 for f in netzero technical slavery heritage insight-circularity insight-digital insight-equity project-nrc project-tqec project-gallery service-design service-cm service-geo; do

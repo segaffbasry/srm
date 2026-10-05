@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 
-export const viewport: Viewport = { themeColor: "#12191e" };
+export const viewport: Viewport = { themeColor: "#3a4953" };
 
 /* Runs before first paint. Unless reduced motion is requested it adds `js` (so reveal targets can start hidden
    without a flash) and, on the first visit of the tab session, `is-loading` for the preloader. Without JavaScript
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: posthogSnippet }} />
         <link rel="preload" href="/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
         <link rel="preload" href="/fonts/source-sans-3-latin-wght-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
-        <link rel="preload" href="/media/hero-poster.jpg" as="image" />
+        <link rel="preload" href="/media/film-poster.jpg" as="image" />
         <noscript><style>{".preloader{display:none!important}"}</style></noscript>
       </head>
       <body>{children}</body>

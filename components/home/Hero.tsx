@@ -4,52 +4,53 @@ import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import { EASE, EASE_IO, onIntro, reducedMotion } from "@/components/Motion";
 import { HashButton, Icon } from "@/components/ui";
-import { hero } from "@/lib/content";
-import { decode, splitWords } from "@/lib/split";
+import { film, hero, stats } from "@/lib/content";
+import { splitWords } from "@/lib/split";
 
-/* Opening scene: the live header film (Port Talbot piling, drone) full-bleed under an Ink scrim, with its news story
-   set the Hashgraph way: a small decoded label, a two-line wide uppercase headline whose second line steps in, and
-   a narrow body column beside it. The entrance waits for the preloader's handover (intro:done): the film opens from a
-   horizontal slit, the headline words rise, the label decodes, the copy and button follow. */
+/* The approved Coinford opening, in SRM's colours: a Slate stage with the eyebrow and a three-line display statement
+   on the left, copy and two buttons on the right, then the brand film in a wide frame whose lower part sits on the
+   white page below (the page opens up without a colour jump), and the four figures underneath.
+   The entrance waits for the preloader's handover (intro:done): lines rise, the copy words follow, the film clips
+   open from the bottom, the figures fade up. */
 export function Hero() {
   const root = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(false);
   const userPaused = useRef(false);
 
-  // React drops the muted attribute, so it is set here before playing.
-  useEffect(() => {
-    const v = video.current; if (!v) return;
-    v.muted = true;
-    if (reducedMotion()) { v.pause(); setPaused(true); userPaused.current = true; return; }
-    const io = new IntersectionObserver(([e]) => {
-      if (userPaused.current) return;
-      if (e.isIntersecting) v.play().catch(() => setPaused(true)); else v.pause();
-    }, { threshold: 0.05 });
-    io.observe(v);
-    return () => io.disconnect();
-  }, []);
-
   useEffect(() => {
     const el = root.current; if (!el) return;
     if (reducedMotion()) return;
-    const words = Array.from(el.querySelectorAll<HTMLElement>(".hero-line")).flatMap((l) => splitWords(l));
-    const label = el.querySelector<HTMLElement>(".hero-label-text");
-    const media = el.querySelector(".hero-media");
+    const lines = el.querySelectorAll(".hero-line > span");
+    const words = splitWords(el.querySelector<HTMLElement>(".hero-text")!);
     const rest = el.querySelectorAll("[data-hero-in]");
-    gsap.set(words, { yPercent: 110 });
-    gsap.set(rest, { autoAlpha: 0, y: 16 });
-    gsap.set(media, { clipPath: "inset(46% 0% 46% 0%)" });
+    const frame = el.querySelector(".hero-film");
+    gsap.set(lines, { yPercent: 110 });
+    gsap.set(words, { yPercent: 105 });
+    gsap.set(rest, { autoAlpha: 0, y: 12 });
+    gsap.set(frame, { clipPath: "inset(100% 0% 0% 0%)" });
     el.classList.add("is-armed");
-    let stop = () => {};
     const off = onIntro(() => {
       gsap.timeline()
-        .to(media, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.2, ease: EASE_IO }, 0)
-        .to(words, { yPercent: 0, duration: 1.1, ease: EASE, stagger: 0.05 }, 0.25)
-        .add(() => { if (label) stop = decode(label, 0.8); }, 0.3)
-        .to(rest, { autoAlpha: 1, y: 0, duration: 0.9, ease: EASE, stagger: 0.08 }, 0.6);
+        .to(rest, { autoAlpha: 1, y: 0, duration: 0.8, ease: EASE, stagger: 0.06 }, 0)
+        .to(lines, { yPercent: 0, duration: 1.1, ease: EASE, stagger: 0.07 }, 0.05)
+        .to(words, { yPercent: 0, duration: 0.9, ease: EASE, stagger: 0.008 }, 0.3)
+        .to(frame, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.2, ease: EASE_IO }, 0.35);
     });
-    return () => { off(); stop(); };
+    return off;
+  }, []);
+
+  // React drops the muted attribute, so it is set here. The film pauses off screen and stays still with reduced motion.
+  useEffect(() => {
+    const v = video.current; if (!v) return;
+    v.muted = true;
+    if (reducedMotion()) { userPaused.current = true; setPaused(true); return; }
+    const io = new IntersectionObserver(([e]) => {
+      if (userPaused.current) return;
+      if (e.isIntersecting) v.play().catch(() => setPaused(true)); else v.pause();
+    }, { threshold: 0.1 });
+    io.observe(v);
+    return () => io.disconnect();
   }, []);
 
   const toggle = () => {
@@ -58,24 +59,44 @@ export function Hero() {
   };
 
   return (
-    <section className="hero" ref={root} data-scene="ink" aria-labelledby="hero-title">
-      <div className="hero-media">
-        <video ref={video} className="hero-video" src={hero.film} poster={hero.poster} autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
-        <div className="hero-scrim" />
-      </div>
-      <div className="hero-copy wrap">
-        <p className="label hero-label" aria-label={hero.label}><span className="hero-label-text" aria-hidden="true">{hero.label.toUpperCase()}</span></p>
-        <h1 id="hero-title" className="h-display hero-title">
-          {hero.lines.map((l, i) => <span key={l} className={`hero-line${i ? " hero-line-step" : ""}`}>{i ? " " : ""}{l}</span>)}
-        </h1>
-        <div className="hero-side">
-          <p className="hero-text" data-hero-in>{hero.text}</p>
-          <div data-hero-in><HashButton href={hero.cta.href}>{hero.cta.label}</HashButton></div>
+    <section className="hero" ref={root} aria-labelledby="hero-title">
+      <div className="hero-stage" data-tone="dark">
+        <div className="wrap">
+          <div className="hero-top">
+            <div>
+              <p className="label hero-eyebrow" data-hero-in>{hero.eyebrow}</p>
+              <h1 className="h-display hero-title" id="hero-title">
+                {hero.lines.map((l, i) => <span className="hero-line" key={l}><span>{i ? " " : ""}{l}</span></span>)}
+              </h1>
+            </div>
+            <div className="hero-side">
+              <p className="hero-text">{hero.text}</p>
+              <div className="hero-actions" data-hero-in>
+                {hero.actions.map((a) => <HashButton key={a.label} href={a.href}>{a.label}</HashButton>)}
+              </div>
+            </div>
+          </div>
+          <div className="hero-film" id="film">
+            <video ref={video} src={film.src} poster={film.poster} muted loop playsInline preload="auto" aria-label={`${film.title}: a short, silent cut of the Sir Robert McAlpine brand film`} />
+            <div className="hero-film-bar">
+              <button className="media-toggle" onClick={toggle} aria-label={paused ? "Play the film" : "Pause the film"}>
+                <Icon name={paused ? "play" : "pause"} /><span>{paused ? "Play film" : "Pause film"}</span>
+              </button>
+              <a className="media-toggle" href={film.cta.href} target="_blank" rel="noopener">{film.cta.label}<Icon name="arrow" /></a>
+            </div>
+          </div>
         </div>
       </div>
-      <button className="media-toggle hero-toggle" onClick={toggle} aria-label={paused ? "Play the background film" : "Pause the background film"} data-hero-in>
-        <Icon name={paused ? "play" : "pause"} /><span>{paused ? "Play" : "Pause"}</span>
-      </button>
+      <div className="wrap">
+        <dl className="stats" data-reveal="cards">
+          {stats.map((s) => (
+            <div className="stat" key={s.label}>
+              <dt className="label">{s.label}</dt>
+              <dd className="stat-value">{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </section>
   );
 }

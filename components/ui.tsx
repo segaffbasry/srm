@@ -60,21 +60,6 @@ export function HashButtonDefs() {
   );
 }
 
-/* A small uppercase label with the red square that echoes the logo box. */
-export function Label({ children, className, as: Tag = "p", reveal = true }: { children: ReactNode; className?: string; as?: "p" | "span" | "h2"; reveal?: boolean }) {
-  return <Tag className={`label ${className ?? ""}`} {...(reveal ? { "data-reveal": "label" } : {})}>{children}</Tag>;
-}
-
-/* Hashgraph's two-line title: wide uppercase display, the second line stepped in. The words stay one phrase for
-   screen readers and reveal together (the "head" move). */
-export function StepTitle({ id, lines, as: Tag = "h2", className }: { id?: string; lines: readonly string[]; as?: "h2" | "h3"; className?: string }) {
-  return (
-    <Tag id={id} className={`h-display h-step ${className ?? ""}`} data-reveal="head">
-      {lines.map((l, i) => <span key={l}>{i ? " " : ""}{l}</span>)}
-    </Tag>
-  );
-}
-
 /* The one card used for insights, services and news: photograph, optional date, title, two lines of summary and
    a "Read more" that names the item for screen readers. The image zooms slightly on hover (--ease-out). */
 export function CardLink({ card, lazy = true }: { card: Card; lazy?: boolean }) {

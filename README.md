@@ -3,6 +3,26 @@
 A private redesign of the [srm.com](https://www.srm.com/) homepage, built with Next.js 16, GSAP (ScrollTrigger and
 CustomEase) and Lenis. It is one route (`/`), never indexed, and every outbound link is held on the page.
 
+## Review round 1 (client feedback, 5 October 2026)
+
+> I like the loading page. I don't like how it jumps through colours, white, grey, black as you scroll. I don't like
+> the layout: can you use a template we have approved that matches?
+
+- **Loading page:** kept as built. Its curtain is now Slate, the colour of the new hero, so the handover still has
+  no colour jump.
+- **Colours:** the scroll-driven backdrop (`Backdrop.tsx`, which blended Ink, Slate, Mist and white between chapters)
+  is gone. The page now has one Slate opening, then stays white, with Mist only on fixed bands (What's on and the
+  footer). Nothing recolours as you scroll.
+- **Layout:** rebuilt on the Coinford demo (coinford.regendigital.co, live, so approved). Coinford is the closest
+  approved match: a UK construction contractor with a dark brand colour, white page and pale stone bands. The
+  pattern is the same: an opening statement with copy and buttons, a film half on the dark ground and half on white,
+  a figures strip, expertise rows beside a photo that follows the row in focus, a captioned project strip, an
+  "About" statement with three columns and two photographs, cards on a pale band, a contact band and a pale footer.
+  Coinford's crop-mark buttons and numbered rows are not used: a later review on another demo called crop marks and
+  index numbers "AI-looking". The decorative red square before labels was removed for the same reason.
+- **Kept from round 0:** palette, fonts, the traced logo and preloader, the copied Hashgraph button, every live
+  homepage item and link, and the private-demo settings.
+
 ```bash
 npm install
 npm run dev        # http://127.0.0.1:3039
@@ -28,6 +48,10 @@ socials, legal). Umbraco site, jQuery, Source Sans Pro from Google Fonts.
 | hashgraphvc.com | Look and layout | Dark cinematic scenes (`#000209`), wide uppercase two-line titles with a stepped-in second line (36px / 700 / lh 1 / -0.72px at 1440), narrow 13px copy columns, 10px bold uppercase labels, square up/down steppers beside a name, its curves `cubic-bezier(.14,1,.34,1)` and `cubic-bezier(.9,0,.1,1)`, and its `.btn` (the copied interaction) |
 | irisventure.com | Motion and scroll | A soft Lenis-style glide, one field that recolours between chapters, a GSAP-pinned chapter where frosted glass cards (20px padding, 12px radius, 1px border, `blur(4px)`, 45deg gradient) arrive around a central object, a nav that hides with `translateY(-170%)` over 0.3s `cubic-bezier(.33,0,.66,1)`, a thin scroll gauge on the right edge |
 
+In round 1 the layout moved to the approved Coinford template (see above). Hashgraph still supplies the button and
+curves, and Iris the nav hide transition and the smooth-scroll feel; the recolouring field and pinned chapter were
+dropped.
+
 **Confirmed choices:** palette Red / Slate / Ink / Mist plus white; type Archivo Expanded with Source Sans 3; copied
 interaction is Hashgraph's button hover; the preloader plays once per tab session.
 
@@ -35,7 +59,7 @@ interaction is Hashgraph's button hover; the preloader plays once per tab sessio
 
 - **Palette** (no other hue anywhere, including gradients, glows and focus rings):
   Red `#E4032C` (logo, core.css, safari-pinned-tab colour), Slate `#3A4953` (core.css headings), Ink `#12191E`
-  (Slate darkened, for the cinematic scenes), Mist `#F0F6F9` (core.css panels), white.
+  (Slate darkened; now used for text), Mist `#F0F6F9` (core.css panels), white.
 - **Type:** the logo is a bold wide grotesk, so the display face is Archivo at `font-stretch: 125%`, weight 700,
   uppercase. It is used only for the hero, section titles, the project name and the menu. UI and body text use
   Source Sans 3, the successor of the live site's Source Sans Pro. Both are self-hosted woff2 files in `public/fonts`.
@@ -49,34 +73,31 @@ interaction is Hashgraph's button hover; the preloader plays once per tab sessio
 
 ## Page
 
-One route. Sections, in live order, with chapters merged where they repeat a message:
+One route, on the approved Coinford layout:
 
-| # | Section | Scene | Live items | Here | Notes |
+| # | Section | Ground | Live items | Here | Notes |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Hero | Ink | 1 story + film | 1 + film | Live header film (Port Talbot piling), headline, summary, Read more |
-| 2 | Film | Ink | 1 film | 1 | Text-free 26s cut of the brand film, muted, with a link to the full film |
-| 3 | Sustainability | Slate | SEE + Net Zero + 3 insights | 2 + 3 | Pinned chapter: Net Zero photo with two glass cards, then insight cards |
-| 4 | Our projects | Ink | 3 | 3 | Hashgraph stepper: photo, tabs, name, summary, tags |
-| 5 | Expertise | Mist | Technical Excellence + 3 services | 1 + 3 | Image-led copy block, then service cards |
-| 6 | Our Heritage | Slate | 1 | 1 | Archive photo, the 150 years counted up, copy |
-| 7 | Latest news | White | 6 | 6 | All six stories, newest first |
-| 8 | Modern Slavery | Red band | 1 | 1 | Short band with its own fill |
-| 9 | Footer | Ink | contact, office, 2 groups, 5 socials, 3 legal | all | |
+| 1 | Hero | Slate, film tail on white | video block | 1 film | Eyebrow is the live video block title; the statement is the brand film's closing card; the copy joins the live About us and Our Vision blurbs |
+| 2 | Figures | White | n/a | 4 | 150 years, 2045, £500m, 5,792: each quoted from live homepage copy |
+| 3 | Expert Services | White | Technical Excellence + 3 services | 1 + 3 | Coinford's rows beside a photo that follows the row in focus |
+| 4 | Our projects | White | 3 | 3 | Coinford's captioned strip; the hovered frame widens |
+| 5 | Our Heritage | White | Heritage + SEE + Net Zero + Modern Slavery | 4 | Statement, three columns, two photographs |
+| 6 | What's on | Mist band | 6 news + 3 insights | 6 + 3 | Two tabs, so both lists stay complete |
+| 7 | Contact | White | contact block | 1 | Phone, email, registered office, office locations |
+| 8 | Footer | Mist | contact, office, 2 groups, 5 socials, 3 legal | all | |
 
-**Gaps:** none cut for pacing. Two live graphics are not shown: the Modern Slavery badge and the SEE hub cut-out
-are green illustrations outside the palette, so their blocks carry copy and a photograph (SEE) or a red band
-(Modern Slavery) instead. The live 18-item mega menu (sector and service thumbnails) becomes the full-screen menu's
-link groups, with the same destinations.
+**Gaps:** none cut for pacing. The live Port Talbot header film and its story are no longer the hero (the approved
+layout opens on a statement and the brand film); the story is still the fourth item in Latest news. Two live
+graphics stay out, the Modern Slavery badge and the SEE hub cut-out, because they are green illustrations outside
+the palette.
 
-**Page height** (`scrollHeight`, measured in headless Chrome):
+**Page height** (`scrollHeight`, production build, headless Chrome):
 
 | Width | Height | Viewports |
 | --- | --- | --- |
-| 1440 x 900 | 7374px | 8.2 (7.9 of content plus 0.3 of pinned travel) |
-| 768 x 1024 | 7156px | 7.0 |
-| 375 x 812 | 7545px | 9.3 (card lists become sideways snap rails, so all items stay) |
-
-Imagery leads: the hero is film, the second section is film, and the third is a full photograph scene.
+| 1440 x 900 | 5795px | 6.4 |
+| 768 x 1024 | 6885px | 6.7 |
+| 375 x 812 | 6646px | 8.2 (card lists and the project strip become sideways snap rails) |
 
 ## Systems
 
@@ -91,9 +112,9 @@ built from its own traced shapes. One GSAP timeline of about 1.8s:
 | 0.35 to 0.95s | "Sir Robert" rises letter by letter |
 | 0.50 to 1.10s | McALPINE rises letter by letter |
 | 1.10 to 1.30s | hold |
-| 1.30 to 1.80s | the lock-up glides and scales onto the header logo (measured when the exit starts) while the Ink curtain fades |
+| 1.30 to 1.80s | the lock-up glides and scales onto the header logo (measured when the exit starts) while the Slate curtain fades |
 
-The curtain is Ink, the hero's opening colour, so nothing jumps. At 1.30s the handover runs: `is-loading` is removed
+The curtain is Slate, the hero's opening colour, so nothing jumps. At 1.30s the handover runs: `is-loading` is removed
 from `<html>`, `data-intro="done"` is set, Lenis starts and `intro:done` is dispatched. The hero entrance (the film
 opening from a horizontal slit, headline words rising, the label decoding, then the copy) starts on that event, so
 the exit and the entrance overlap. Measured on the production build: handover at about 1.38s after navigation,
@@ -105,14 +126,14 @@ so the finished logo never flashes first. Scroll is locked (`overflow: hidden` p
 leaves `scrollY` at 0). A 2.6s failsafe completes the timeline if the tab is throttled. The preloader is
 `aria-hidden`, hidden by `<noscript>`, and skipped instantly with reduced motion.
 
-### Scenes (`components/Backdrop.tsx`)
+### Grounds and header tone
 
-There are no hard section fills. One fixed field sits behind the page and each section declares `data-scene` (ink,
-slate, mist or white). Every frame the field blends from the scene under the viewport centre into the next one
-over the last 40% of a viewport. Text colours come from the blended luminance (`--fg`, `--fg2`, sampled at the
-centre), and the header's colour is sampled behind the header (`--hfg`), so contrast holds mid-blend. A 1px scroll
-gauge on the right edge follows progress (both references have one). The Modern Slavery band is the one exception:
-it is too short for a blend to reach full red, so it carries its own red fill.
+There is no scroll-driven colour. The hero stage is Slate and runs into white behind the lower part of the film
+(Coinford's `--film-tail`). Sections are white, What's on and the footer sit on Mist. `[data-tone="dark"]` flips the
+text colours inside the Slate stage. The header has no bar over the hero. A probe reads what sits behind its middle
+on every scroll frame: white text over the Slate stage, Ink text plus a white scrim over the page, so headings never
+collide with it (the scrim is the fix the client approved on the Iona Capital demo). Hide, reveal and tone are React
+state, not hand-added classes, because React rewrites `className` when the menu opens.
 
 ### Motion vocabulary (`components/Motion.tsx`)
 
@@ -130,10 +151,9 @@ menu and preloader stop it. Every reveal plays once, uses the two Hashgraph curv
 | Image | `data-reveal="image"` | clip opens from the bottom, 1.3s, in-out curve; a `data-parallax` image inside drifts ±5% (about 10% in total) |
 | Button outline | every `.hbtn` | the outline draws itself in when the button arrives |
 
-Heavier motion is kept to the preloader and the hero (the slit-open film, word-by-word headline and decoded label).
-Two chapters add their own scrubbed motion. The sustainability chapter pins for 30% of a viewport while the photo
-settles and the two glass cards arrive (desktop only; below 1024px nothing pins). The projects stepper wipes each
-new photograph in.
+Heavier motion is kept to the preloader and the hero (statement lines rise out of masks, the copy words follow, the
+film clips open from the bottom). Nothing pins and nothing scroll-jacks. Hovers come from the approved template: the
+Slate fill rising behind an expertise row (0.2s, `cubic-bezier(.44,0,.56,1)`) and the widening project frame.
 
 ### The copied interaction (`HashButton` in `components/ui.tsx`)
 
@@ -148,14 +168,14 @@ crosses every 5s. On hover:
 
 Side-by-side check (computed styles on the hovered button) matched every value above. The differences are
 deliberate. The size is 40px tall with 12px type, against Hashgraph's 32px with 10px, for legibility. The colours
-are the palette swap: the outline runs Mist to Slate on dark scenes (`tone="on-dark"`) or Red to Slate on light ones
+are the palette swap: the outline runs Mist to Slate on the Slate hero (`tone="on-dark"`) or Red to Slate on the white page
 (`"on-light"`), and the glow is Mist or Red instead of `#9BB8E1`.
 
 ### Header and menu (`components/Header.tsx`)
 
-The header has no bar and no box: the red lock-up, three live destinations and a Menu toggle. Its colour follows
-the scene. It hides on the way down and returns on the way up, using Iris's transition. The menu is a full-screen
-Ink panel that wipes down (GSAP timeline in, the same timeline reversed out) with the live navigation groups, the
+The header has no bar over the hero: the red lock-up, the five live main sections and a Menu toggle. Its colour follows
+what sits behind it (see above). It hides on the way down and returns on the way up, using Iris's transition. The menu is a full-screen
+Slate panel that wipes down (GSAP timeline in, the same timeline reversed out) with the live navigation groups, the
 homepage sections (scrolled to through Lenis), contact and socials. Focus moves into it and is trapped, Esc closes
 it, and focus returns to the toggle. All of this was tested with the keyboard only.
 
@@ -166,7 +186,7 @@ brand film, then encodes `public/media` (11MB):
 
 - `hero.mp4` (2.5MB, 1600px, silent) and its poster
 - `film.mp4` (5.2MB): 13 text-free cuts of the brand film, since many of its frames carry title cards
-- webp photographs: 1600px for scenes, 960px for news
+- webp photographs: 1600px for large frames, 960px for news
 
 Photography is shown in natural colour at 85% saturation (no duotone). Both films are muted, have a pause control,
 pause when off screen, and stay on their posters with reduced motion.
@@ -193,8 +213,8 @@ live sitemap and everything answered 200. The two non-active project links were 
   (verified: zero hidden reveal targets).
 - **No JavaScript:** nothing is hidden and the preloader is suppressed by `<noscript>` (verified).
 - **Keyboard:** a skip link, visible red focus rings, a project tab list with arrow keys, and a focus-trapped menu.
-- **Contrast:** text colour is derived from scene luminance. The hero copy sits on an Ink scrim, and glass cards
-  carry an Ink to Slate gradient under a 10px blur.
+- **Contrast:** Ink and Slate text on white and Mist, white and Mist on Slate (all above 7:1). The header gains a
+  white scrim over the page.
 - **Checks at 375, 768 and 1440 (headless Chrome, production build):** no horizontal scroll, no broken images, no
   console errors. The one aborted `film.mp4` request is Chrome replacing its metadata range request when playback
   starts; the film plays.
