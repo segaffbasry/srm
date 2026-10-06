@@ -33,6 +33,18 @@ npm run logo       # re-trace the logo into lib/logo.ts, public/brand and app/ic
 node scripts/check-links.mjs   # check every link on the running page against the live sitemap
 ```
 
+## Review round 2 (client feedback, 6 October 2026)
+
+> Could we do something better with the call to action? This looks a bit bland.
+
+The plain contact band is now a closing panel modelled on the reference the user picked (the rounded colour panels
+on einkaufsfuehrer-museen.de). It is a full-width SRM Red panel with a 24px radius. A photograph sits inset on the
+left in a 16px frame (SRM's technical-excellence photo, two engineers with drawings). On the right are the logo as
+a white plate, the "Contact Us" label, a statement, the phone, email and registered office as a list, and two links:
+Office Locations behind a round white arrow button, and Search & Apply with an arrow. The statement is SRM's live
+"Our Vision" line, so the hero copy keeps only the live "About us" line rather than repeating it. White on Red
+passes 4.5:1 for the 17px text, and the small label is solid white.
+
 ## Recon (4 October 2026)
 
 **Live homepage, in order:** a hero promo (the Port Talbot film plus a news story), the brand film ("A family building
@@ -83,7 +95,7 @@ One route, on the approved Coinford layout:
 | 4 | Our projects | White | 3 | 3 | Coinford's captioned strip; the hovered frame widens |
 | 5 | Our Heritage | White | Heritage + SEE + Net Zero + Modern Slavery | 4 | Statement, three columns, two photographs |
 | 6 | What's on | Mist band | 6 news + 3 insights | 6 + 3 | Two tabs, so both lists stay complete |
-| 7 | Contact | White | contact block | 1 | Phone, email, registered office, office locations |
+| 7 | Contact | Red panel on white | contact block | 1 | Rounded call-to-action panel (round 2): photo, logo plate, Our Vision statement, phone, email, office, Office Locations, Search & Apply |
 | 8 | Footer | Mist | contact, office, 2 groups, 5 socials, 3 legal | all | |
 
 **Gaps:** none cut for pacing. The live Port Talbot header film and its story are no longer the hero (the approved
@@ -95,9 +107,9 @@ the palette.
 
 | Width | Height | Viewports |
 | --- | --- | --- |
-| 1440 x 900 | 5795px | 6.4 |
-| 768 x 1024 | 6885px | 6.7 |
-| 375 x 812 | 6646px | 8.2 (card lists and the project strip become sideways snap rails) |
+| 1440 x 900 | 6242px | 6.9 |
+| 768 x 1024 | 7498px | 7.3 |
+| 375 x 812 | 7122px | 8.8 (card lists and the project strip become sideways snap rails) |
 
 ## Systems
 

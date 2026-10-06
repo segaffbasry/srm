@@ -7,7 +7,7 @@ import { Heritage } from "@/components/home/Heritage";
 import { Hero } from "@/components/home/Hero";
 import { Projects } from "@/components/home/Projects";
 import { WhatsOn } from "@/components/home/WhatsOn";
-import { HashButton, HashButtonDefs, Icon } from "@/components/ui";
+import { HashButtonDefs, Icon } from "@/components/ui";
 import { contact, footer, socials } from "@/lib/content";
 
 /* srm.com's homepage on the layout of an approved Regen demo (Coinford, coinford.regendigital.co): one Slate opening,
@@ -29,18 +29,31 @@ export default function Home() {
         <Heritage />
         <WhatsOn />
 
-        {/* Coinford's contact band: the question on the left, the live phone and email on the right. */}
+        {/* Closing call to action, after the rounded colour panel the client pointed to (einkaufsfuehrer-museen.de):
+            a photograph inset on the left; on the right a logo badge, a statement, the contact details as a list
+            and two links, one with a round arrow button. In SRM Red, the brand's own box colour. */}
         <section className="section contact" id="contact" data-late aria-labelledby="contact-title" tabIndex={-1}>
-          <div className="wrap contact-row">
-            <div>
-              <h2 className="h2" id="contact-title" data-reveal="head">{contact.title}</h2>
-              <p className="label contact-office" data-reveal="label">{contact.office.title}</p>
-              <address className="body" data-reveal="text">{contact.office.lines.join(", ")}</address>
-            </div>
-            <div className="contact-side" data-reveal="label">
-              <a className="contact-big" href={contact.phone.href}>{contact.phone.label}</a>
-              <a className="contact-big" href={contact.email.href}>{contact.email.label}</a>
-              <HashButton href={contact.offices.href} tone="on-light">{contact.offices.label}</HashButton>
+          <div className="wrap">
+            <div className="cta-panel" data-tone="dark" data-reveal="image">
+              <figure className="cta-photo"><img src={contact.image} alt={contact.alt} loading="lazy" data-parallax /></figure>
+              <div className="cta-copy">
+                <span className="cta-badge" aria-hidden="true"><Logo title="" /></span>
+                <p className="label cta-label">{contact.title}</p>
+                <h2 className="cta-title" id="contact-title">{contact.statement}</h2>
+                <ul className="cta-list">
+                  <li><a href={contact.phone.href}>{contact.phone.label}</a></li>
+                  <li><a href={contact.email.href}>{contact.email.label}</a></li>
+                  <li>{contact.office.title}: {contact.office.lines.join(", ")}</li>
+                </ul>
+                <div className="cta-links">
+                  <a className="cta-link cta-link-round" href={contact.offices.href} target="_blank" rel="noopener">
+                    <span className="cta-round" aria-hidden="true"><Icon name="arrow" /></span>{contact.offices.label}
+                  </a>
+                  <a className="cta-link" href={contact.careers.href} target="_blank" rel="noopener">
+                    <Icon name="northeast" />{contact.careers.label}
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>

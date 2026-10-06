@@ -4,6 +4,7 @@ import type { Card } from "@/lib/content";
 
 const glyphs = {
   arrow: <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />,
+  northeast: <path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" />,
   up: <path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />,
   down: <path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />,
   play: <path d="M8 5.5v13l11-6.5z" fill="currentColor" />,

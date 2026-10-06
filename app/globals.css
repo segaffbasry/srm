@@ -370,13 +370,40 @@ html.js:not(.logo-landed) .header-logo { opacity: 0; }
 .whatson .card-media { background: var(--white); }
 
 /* ---------- contact band ---------- */
-.contact-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; }
-.contact-office { margin: 20px 0 4px; }
-.contact-side { display: grid; gap: 8px; justify-items: end; text-align: right; }
-.contact-big { font-size: clamp(20px, 1.8vw, 26px); font-weight: 600; color: rgb(var(--fg)); box-shadow: 0 1px 0 transparent; transition: box-shadow 0.4s var(--ease-out); }
-.contact-big:hover { box-shadow: 0 2px 0 var(--red); }
-.contact-side .hbtn { margin-top: 12px; }
-@media (max-width: 900px) { .contact-row { grid-template-columns: 1fr; } .contact-side { justify-items: start; text-align: left; } }
+/* The client's reference (einkaufsfuehrer-museen.de "Sonstiges" panel): a full-width rounded colour panel, 24px
+   radius, with the photograph inset 32px in its own 16px-radius frame on the left (about 57% of the width) and the
+   copy vertically centred on the right; links sit at the foot, the first behind a round white button. */
+.cta-panel {
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 3vw, 48px);
+  padding: clamp(14px, 2.2vw, 32px); border-radius: 24px; background: var(--red); color: var(--white);
+}
+.cta-photo { position: relative; min-height: clamp(280px, 30vw, 460px); border-radius: 16px; overflow: hidden; background: var(--slate); }
+.cta-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.85); }
+.cta-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: clamp(8px, 1.4vw, 20px) clamp(4px, 1vw, 16px) clamp(8px, 1vw, 12px) 0; }
+/* The logo as a white plate, like the reference's publisher badge. */
+.cta-badge { display: block; width: 128px; padding: 3px; background: var(--white); }
+.cta-badge .logo { width: 100%; height: auto; }
+.cta-badge .logo-box { fill: var(--white); }
+.cta-badge .logo-ink { fill: var(--red); }
+.cta-label { color: var(--white); margin: auto 0 0; }
+.cta-title { font-size: clamp(26px, 2.6vw, 40px); line-height: 1.15; font-weight: 600; letter-spacing: -0.015em; color: var(--white); text-wrap: balance; max-width: 26ch; }
+.cta-list { display: grid; gap: 6px; padding-left: 1.1em; list-style: disc; font-size: 17px; line-height: 1.45; color: var(--white); }
+.cta-list li::marker { color: rgb(255 255 255 / 0.7); }
+.cta-list a { box-shadow: 0 1px 0 rgb(255 255 255 / 0.5); transition: box-shadow 0.4s var(--ease-out); }
+.cta-list a:hover { box-shadow: 0 2px 0 var(--white); }
+.cta-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; margin-top: auto; padding-top: 12px; }
+.cta-link { display: inline-flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 600; color: var(--white); }
+.cta-link .icon { width: 18px; height: 18px; transition: transform 0.6s var(--ease-out); }
+.cta-link:hover .icon { transform: translate(2px, -2px); }
+.cta-round { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--white); color: var(--red); transition: transform 0.6s var(--ease-out); }
+.cta-link-round:hover .icon { transform: translateX(3px); }
+.cta-link-round:hover .cta-round { transform: scale(1.06); }
+:where(.cta-panel) :focus-visible { outline-color: var(--white); }
+@media (max-width: 900px) {
+  .cta-panel { grid-template-columns: 1fr; }
+  .cta-photo { min-height: 0; aspect-ratio: 16 / 10; }
+  .cta-label { margin-top: 4px; }
+}
 
 /* ---------- footer (Coinford's stone footer, in Mist) ---------- */
 .site-footer { padding: var(--space-section) 0 32px; background: var(--mist); color: var(--ink); }

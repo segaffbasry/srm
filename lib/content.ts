@@ -57,11 +57,11 @@ export const socials = [
 
 /* Hero, in the approved Coinford layout (statement on the left, copy and buttons on the right, the film below).
    Every line is SRM's own: the eyebrow is the live video block's title, the display lines are the brand film's
-   closing card, and the copy joins the live "About us" and "Our Vision" blurbs from the Who We Are menu. */
+   closing card, and the copy is the live "About us" blurb from the Who We Are menu. */
 export const hero = {
   eyebrow: "A family building and civil engineering company",
   lines: ["Proudly building", "Britain’s future", "heritage"],
-  text: "It’s the quality of our people that makes us different. To be renowned for our work with clients and communities as we construct a better world for future generations.",
+  text: "It’s the quality of our people that makes us different.",
   actions: [
     { label: "What we do", href: u("/expert-services/") },
     { label: "View all projects", href: u("/projects/") },
@@ -174,6 +174,11 @@ export const news: { title: string; items: Card[]; cta: Link } = {
 
 export const contact = {
   title: "Contact Us",
+  // The closing panel's statement: the live "Our Vision" blurb from the Who We Are menu.
+  statement: "To be renowned for our work with clients and communities as we construct a better world for future generations.",
+  image: "/media/technical.webp",
+  alt: "Two Sir Robert McAlpine engineers reviewing drawings inside a building under construction",
+  careers: { label: "Search & Apply", href: "https://jobs.srm.com/jobs/home/" },
   phone: { label: "0333 566 3444", href: "tel:+443335663444" },
   email: { label: "information@srm.com", href: "mailto:information@srm.com" },
   office: { title: "Registered Office", lines: ["Concept House, Home Park Mill Link", "Kings Langley", "Hertfordshire", "WD4 8UD", "GB"] },
